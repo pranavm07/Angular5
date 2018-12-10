@@ -1,0 +1,4 @@
+{
+    "git.autoRepositoryDetection": false,
+    "git.defaultCloneDirectory": "git clone https://PranavNalashaa@bitbucket.org/nhs_recruitmentportaldevteam/nhs_recruitmentportal_ui.git"
+}
