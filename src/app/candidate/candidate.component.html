@@ -1,0 +1,245 @@
+<!--Candidate START-->
+<div id="candidate" class="section-padding mrg-top-60">
+  <div class="container">
+    <div class="row">
+      <div clas="col-md-12">
+        <h3>Candidate</h3>
+      </div>
+    </div>
+    <form role="form" (ngSubmit)="saveCandidate(saveCandidateForm)" #saveCandidateForm="ngForm">
+      <div class="row">
+        <div class="col-md-4">
+          <label>&nbsp;</label>
+          <div>
+            <button class="btn btn-info">New Candidate</button>
+          </div>
+        </div>
+        <div class="col-md-4">
+
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Search</label>
+            <div class="input-group add-on">
+              <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Entry Date *</label>
+            <div class="">
+              <input type="date" class="form-control" name="entryDate" id="candidateEntryDate" placeholder="" [(ngModel)]="candidate.EntryDate" required>
+              <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['entryDate'].valid)">Entry Date is Required</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Candidate Name *</label>
+            <div class="">
+              <input type="text" class="form-control" name="cadidateName" id="cadidateNm" placeholder="" [(ngModel)]="candidate.CandidateName" required>
+            </div>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['cadidateName'].valid)">Candidate Name is Required</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Contact Number *</label>
+            <input type="text" class="form-control" name="contactNumber" id="contactNo" placeholder="" [(ngModel)]="candidate.PhoneNumber" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['contactNumber'].valid)">Phone Number is Required</p>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class=" col-form-label text-right">Secondary Number</label>
+            <div class="">
+              <input type="text" name="secondary" [(ngModel)]="candidate.SecondaryPhoneNumber" class="form-control" id="secondaryPhoneNumber" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Domain *</label>
+            <input type="text" class="form-control" name="domain" [(ngModel)]="candidate.SecondaryPhoneNumber" id="candidateDomain" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['contactNumber'].valid)">Phone Number is Required</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Interviewed for Position ID</label>
+            <input type="text" class="form-control" name="interviewPosition" [(ngModel)]="candidate.InterviewPosition" id="candidateInterviewPosition">
+            <!--<p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['interviewPosition'].valid)">Email Id is Required</p>-->
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Email Id *</label>
+            <input type="text" class="form-control" name="emailId" [(ngModel)]="candidate.EmailId" id="candidateEmailid" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['emailId'].valid)">Email Id is Required</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Primary Skill</label>
+            <input type="text" class="form-control">
+            <!--<ng-select [items]="cities"
+                       bindLabel="name"
+                       placeholder="Select city"
+                       [(ngModel)]="selectedCity">
+            </ng-select>-->
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Secondary Skill</label>
+            <input type="text" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Other Skill</label>
+            <input type="text" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Current Company *</label>
+            <input type="text" class="form-control" name="currentCompany" [(ngModel)]="candidate.CurrentCompany" id="candidateCurrentCompany" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['currentCompany'].valid)">Current Company is Required</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Current Designation *</label>
+            <input type="text" class="form-control" name="currentDesignation" [(ngModel)]="candidate.CurrentDesignation" id="candidateCurrentDesignation" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['currentDesignation'].valid)">Current Designation is Required</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Experience Level *</label>
+            <input type="text" class="form-control" name="experienceLevelYears" [(ngModel)]="candidate.ExperienceLevelYears" id="candidateExperienceLevelYears" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['experienceLevelYears'].valid)">Experience Level is Required</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Position Type</label>
+            <div class="styled-select2 col-md-3">
+              <select>
+                <option>Permanent</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Current Location *</label>
+           
+              <input type="text" class="form-control" name="currentLocation" [(ngModel)]="candidate.CurrentLocation" id="candidateCurrentLocation" required>
+              <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['currentLocation'].valid)">Current Location is Required</p>
+            
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Contract Duration</label>
+            <input type="text" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Current CTC *</label>
+            <input type="text" class="form-control" name="currentCTC" [(ngModel)]="candidate.CurrentCTC" id="candidateCurrentCTC" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['currentCTC'].valid)">Current CTC is Required</p>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Expected CTC *</label>
+            <input type="text" class="form-control" name="currentCTC" [(ngModel)]="candidate.ExpectedCTC" id="candidateExpectedCTC" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['currentCTC'].valid)">Expected CTC is Required</p>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Notice Period *</label>
+            <input type="text" class="form-control" name="noticePeriod" [(ngModel)]="candidate.NoticePeriod" id="candidateNoticePeriod" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['noticePeriod'].valid)">Notice Period is Required</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Status Update Date</label>
+          
+            <input type="date" class="form-control" name="statusUpdatedDate" [(ngModel)]="candidate.StatusUpdatedDate" id="candidateStatusUpdatedDate" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['statusUpdatedDate'].valid)">Required</p>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Vendor Name</label>
+            <input type="text" class="form-control" name="vendorName" [(ngModel)]="candidate.VendorName" id="candidateVendorName" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['vendorName'].valid)">Vendor Name is Required</p>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Referral Name</label>
+            <input type="text" class="form-control" name="referralName" [(ngModel)]="candidate.ReferralName" id="candidateReferralName" required>
+            <p style="color:red" *ngIf="(saveCandidateForm.submitted && !saveCandidateForm.controls['referralName'].valid)">Referral Name is Required</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Copy CV</label>
+            <div>
+              <textarea class="form-control">
+			        </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row text-right">
+        <div class="col-md-12">
+          <button class="btn btn-info"><i class="fa fa-file"></i> Upload CV</button>
+          <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+          <button class="btn btn-success"><i class="fa fa-thumbs-up"></i> Submit</button>
+          <button class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!--Candidate Ends--> 
