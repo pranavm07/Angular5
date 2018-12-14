@@ -10,7 +10,9 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { InterviewComponent } from './interview/interview.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
-
+import { CandidateService } from './services/candidateService';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule,BrowserXhr } from '@angular/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,9 +27,12 @@ import {MatSelectModule} from '@angular/material/select';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule,
+    HttpModule
+
   ],
-  providers: [],
+  providers: [CandidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
