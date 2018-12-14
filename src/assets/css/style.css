@@ -509,4 +509,16 @@ h2 {
     text-transform: uppercase;
 
 }
+.mat-form-field{width:100% !important;}
+.matiinput .form-control{padding:0 !important;}
+.mat-form-field-infix{
+    padding:0 !important;
+    border-top:0 !important;}
 
+    .mat-form-field-infix input{
+        width:100% !important;
+        border:0 !important;
+        padding:8px;
+        height: 37px;
+        background: transparent;
+    }

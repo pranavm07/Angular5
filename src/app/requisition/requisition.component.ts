@@ -7,8 +7,8 @@ import {
     Validators,
     FormBuilder
 } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-requisition',
@@ -31,6 +31,12 @@ export class RequisitionComponent implements OnInit {
     positionTypeControl: FormControl;
     contractDurationControl: FormControl;
     salRangeControl: FormControl;
+
+    positionIdControl = new FormControl();
+
+    options: string[] = ['Req1', 'Req2', 'Req3','abc123','def345ss'];
+
+    filteredOptions: Observable<string[]>;
     public businessUnitList = [{
         businessUnit:'Healthcare'
     },
@@ -111,13 +117,18 @@ export class RequisitionComponent implements OnInit {
 
     ngOnInit() {
         this.createForm();
-        
+        this.filteredOptions = this.positionIdControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
     
   }
     
-    searchTerm(val) {
-        
-    }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
     createForm() {
         this.requisitionForm = new FormGroup({
             hrManagerName: new FormControl({ value: 'hr', disabled: true }, [Validators.required]),

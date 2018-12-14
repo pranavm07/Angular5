@@ -2,349 +2,360 @@
 
 <div id="requisition" class="section-padding mrg-top-60">
   <div class="container">
-      <div class="row">
-          <div clas="col-md-12">
-              <h3>Requisition</h3>
-          </div>
+    <div class="row">
+      <div clas="col-md-12">
+        <h3>Requisition</h3>
       </div>
+    </div>
 
-      <div class="row">
-          <div class="col-md-4">
-              <label>&nbsp;</label>
-              <div>
-                  <button class="btn btn-info" (click)="newRequisitionClick()">New Requisition</button>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="form-group">
-                  <label for="" class="col-form-label text-right">Position ID</label>
-                  <div class="">
-                      <input type="search"
-                             class="form-control" name="searchField"
-                             placeholder="Search using requisition Id" (keyup)="searchTerm($event.target.value)">
-                      <hr />
-                      <ul>
-                          <li *ngFor="let search of searches">{{ search }}</li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="form-group">
-                  <label for="" class="col-form-label text-right">Requisition Date</label>
-                  <div class="">
-                      <input type="date" class="form-control" id="" placeholder="">
-                  </div>
-              </div>
-          </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>&nbsp;</label>
+        <div>
+          <button class="btn btn-info" (click)="newRequisitionClick()">New Requisition</button>
+        </div>
       </div>
-      <form [formGroup]="requisitionForm"  *ngIf="requisitionFormShow">
-          <div class="row">
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Hiring Manager Name</label>
-                      <div class="">
-                          <input type="text" class="form-control" id="hrManagerName" formControlName="hrManagerName"  [disabled]="true">
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Business Unit</label>
-                      <div class="styled-select2 col-md-3">
-                          <select id="businessUnitList" class="form-control" formControlName="businessUnitControl">
-                              <option value="" disabled selected>select a category</option>
-                              <option *ngFor="let item of businessUnitList" [value]="item.businessUnit">{{item.businessUnit}}</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class=" col-form-label text-right">Project Name</label>
-                      <div class="">
-                          <input type="text" class="form-control" formControlName="projectNameControl">
-                      </div>
-                  </div>
-              </div>
+      <div class="col-md-4">
+        <div class="form-group matiinput">
+          <label class="col-form-label text-right">Position ID</label>
+          <div class="form-control">
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="type here to search" aria-label="Number" matInput [formControl]="positionIdControl"
+                [matAutocomplete]="auto" class=""> 
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
-          <div class="row">
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Primary Skill</label>
-                      <div class="styled-select2 col-md-3">
-                          <select [(ngModel)]="primarySkill" id="primarySkill" class="form-control" formControlName="primarySkillControl">
-                              <option value="" disabled selected>select a category</option>
-                              <option *ngFor="let item of skills" [value]="item.skill">{{item.skill}}</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Secondary Skill</label>
-                      <div class="styled-select2 col-md-3">
-                          <select [(ngModel)]="secondarySkill" id="secondarySkill" class="form-control" formControlName="secondarySkillControl">
-                              <option value="" disabled selected>select a category</option>
-                              <option *ngFor="let item of skills" [value]="item.skill">{{item.skill}}</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Other Skill</label>
-                      <div class="">
-                          <input type="text" class="form-control" formControlName="otherSkills">
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Position</label>
-                      <div class="styled-select2 col-md-3">
-                          <select [(ngModel)]="position" id="position" class="form-control" formControlName="positionControl">
-                              <option value="" disabled selected>select a category</option>
-                              <option *ngFor="let item of positionList" [value]="item.position">{{item.position}}</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Experience Level</label>
-                      <div class="">
-                          <input type="number" min="0" max="25" required placeholder="" name="experience" formControlName="experienceControl">
-                          <div>{{requisitionForm.experience}}</div>
-                      </div>
-                      </div>
-                  </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Of Positions</label>
-                      <input type="number" min="1" max="9" required placeholder="" name="ofPosition" formControlName="ofPositionControl">
-                  </div>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Position Type</label>
-                      <div class="styled-select2 col-md-3">
-                          <select [(ngModel)]="positionType" id="position" class="form-control" formControlName="positionTypeControl">
-                              <option value="" disabled selected>select a category</option>
-                              <option *ngFor="let item of positionTypeList" [value]="item.name">{{item.name}}</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Contract  Duration</label>
-                      <input type="number"  required placeholder="" name="contractDuration" formControlName="contractDurationControl" min="1">
-                      <p>month</p>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Interview Panel</label>
-                      <div class="styled-select2 col-md-3">
-                          <select>
-                              <option>John Doe</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Salary Range Type</label>
-                      <input type="number" required placeholder="" name="salRange" formControlName="salRangeControl" >
-                      <p>LPA</p>
-                  </div>
-              </div>
 
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Position Colosure</label>
-                      <div class="">
-                          <input type="date" class="form-control" id="" placeholder="">
-                      </div>
-                  </div>
-              </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="" class="col-form-label text-right">Requisition Date</label>
+          <div class="">
+            <input type="date" class="form-control" id="reqDate" [attr.disabled]="disabled">
           </div>
-          <div class="row">
-              <div class="col-md-6">
-                  <div class="form-group">
-                      <label for="" class="col-form-label text-right">Job Description</label>
-                      <div>
-                          <textarea class="form-control">
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="requisitionForm" *ngIf="requisitionFormShow">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Hiring Manager Name</label>
+            <div class="">
+              <input type="text" class="form-control" id="hrManagerName" formControlName="hrManagerName" [disabled]="true">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Business Unit</label>
+            <div class="styled-select2 col-md-3">
+              <select id="businessUnitList" class="form-control" formControlName="businessUnitControl">
+                <option value="" disabled selected>select a category</option>
+                <option *ngFor="let item of businessUnitList" [value]="item.businessUnit">{{item.businessUnit}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class=" col-form-label text-right">Project Name</label>
+            <div class="">
+              <input type="text" class="form-control" formControlName="projectNameControl">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Primary Skill</label>
+            <div class="styled-select2 col-md-3">
+              <select [(ngModel)]="primarySkill" id="primarySkill" class="form-control" formControlName="primarySkillControl">
+                <option value="" disabled selected>select a category</option>
+                <option *ngFor="let item of skills" [value]="item.skill">{{item.skill}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Secondary Skill</label>
+            <div class="styled-select2 col-md-3">
+              <select [(ngModel)]="secondarySkill" id="secondarySkill" class="form-control" formControlName="secondarySkillControl">
+                <option value="" disabled selected>select a category</option>
+                <option *ngFor="let item of skills" [value]="item.skill">{{item.skill}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Other Skill</label>
+            <div class="">
+              <input type="text" class="form-control" formControlName="otherSkills">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Position</label>
+            <div class="styled-select2 col-md-3">
+              <select [(ngModel)]="position" id="position" class="form-control" formControlName="positionControl">
+                <option value="" disabled selected>select a category</option>
+                <option *ngFor="let item of positionList" [value]="item.position">{{item.position}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Experience Level</label>
+            <div class="">
+              <input class="form-control" type="number" min="0" max="25" required placeholder="" name="experience" formControlName="experienceControl">
+              <div>{{requisitionForm.experience}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Of Positions</label>
+            <div>
+            <input class="form-control" type="number" min="1" max="9" required placeholder="" name="ofPosition" formControlName="ofPositionControl">
+          </div></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Position Type</label>
+            <div class="styled-select2 col-md-3">
+              <select [(ngModel)]="positionType" id="position" class="form-control" formControlName="positionTypeControl">
+                <option value="" disabled selected>select a category</option>
+                <option *ngFor="let item of positionTypeList" [value]="item.name">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Contract Duration (Month)</label>
+            <div>
+            <input class="form-control" type="number" required placeholder="" name="contractDuration" formControlName="contractDurationControl"
+              min="1"></div>
+            
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Interview Panel</label>
+            <div class="styled-select2 col-md-3">
+              <select>
+                <option>John Doe</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Salary Range Type (LPA)</label>
+           <div>
+
+            <input class="form-control" type="number" required placeholder="" name="salRange" formControlName="salRangeControl">
+        </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Position Colosure</label>
+            <div class="">
+              <input type="date" class="form-control" id="" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="" class="col-form-label text-right">Job Description</label>
+            <div>
+              <textarea class="form-control">
 </textarea>
-                      </div>
-                  </div>
-              </div>
+            </div>
           </div>
-
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                      <div class="panel panel-default">
-                          <div class="panel-heading" role="tab" id="headingOne">
-                              <h4 class="panel-title"> <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <i class="more-less glyphicon glyphicon-plus"></i> Review </a> </h4>
-                          </div>
-                          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                              <div class="panel-body">
-                                  <div class="row">
-                                      <div class="col-md-4">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Candidate Name</label>
-                                              <div class="">
-                                                  <input type="text" class="form-control" id="" placeholder="">
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-4">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Recruiter</label>
-                                              <input type="text" class="form-control" id="" placeholder="">
-                                          </div>
-                                      </div>
-                                      <div class="col-md-4"> </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Round</label>
-                                              <div class="styled-select2 col-md-3">
-                                                  <select>
-                                                      <option>1</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Date</label>
-                                              <input type="date" class="form-control">
-                                          </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Time From</label>
-                                              <input type="date" class="form-control">
-                                          </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">To</label>
-                                              <input type="date" class="form-control">
-                                          </div>
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview</label>
-                                              <div class="styled-select2 col-md-3">
-                                                  <select>
-                                                      <option>John Doe</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </div>
-
-                                      <div class="col-md-6">
-
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Result</label>
-                                              <div class="styled-select2 col-md-3">
-                                                  <select>
-                                                      <option>Cleared</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Round</label>
-                                              <div class="styled-select2 col-md-3">
-                                                  <select>
-                                                      <option>2</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Date</label>
-                                              <input type="date" class="form-control">
-                                          </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Time From</label>
-                                              <input type="date" class="form-control">
-                                          </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">To</label>
-                                              <input type="date" class="form-control">
-                                          </div>
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview</label>
-                                              <div class="styled-select2 col-md-3">
-                                                  <select>
-                                                      <option>John Doe</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </div>
-
-                                      <div class="col-md-6">
-
-                                      </div>
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label for="" class="col-form-label text-right">Interview Result</label>
-                                              <div class="styled-select2 col-md-3">
-                                                  <select>
-                                                      <option>Cleared</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </form>
-      <hr>
-      <div class="row text-right">
-          <div class="col-md-12">
-              <button class="btn btn-info"><i class="fa fa-file"></i> Upload CV</button>
-              <button class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-              <button class="btn btn-success"><i class="fa fa-thumbs-up"></i> Submit</button>
-              <button class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
-          </div>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title"> <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne"> <i class="more-less glyphicon glyphicon-plus"></i>
+                    Review </a> </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Candidate Name</label>
+                        <div class="">
+                          <input type="text" class="form-control" id="" placeholder="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Recruiter</label>
+                        <input type="text" class="form-control" id="" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-md-4"> </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Round</label>
+                        <div class="styled-select2 col-md-3">
+                          <select>
+                            <option>1</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Date</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Time From</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">To</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview</label>
+                        <div class="styled-select2 col-md-3">
+                          <select>
+                            <option>John Doe</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Result</label>
+                        <div class="styled-select2 col-md-3">
+                          <select>
+                            <option>Cleared</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Round</label>
+                        <div class="styled-select2 col-md-3">
+                          <select>
+                            <option>2</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Date</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Time From</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">To</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview</label>
+                        <div class="styled-select2 col-md-3">
+                          <select>
+                            <option>John Doe</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="" class="col-form-label text-right">Interview Result</label>
+                        <div class="styled-select2 col-md-3">
+                          <select>
+                            <option>Cleared</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div class="row text-right">
+      <div class="col-md-12">
+        <button class="btn btn-info"><i class="fa fa-file"></i> Upload CV</button>
+        <button class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+        <button class="btn btn-success"><i class="fa fa-thumbs-up"></i> Submit</button>
+        <button class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+      </div>
+    </div>
   </div>
 </div>
 <!--Requisition Ends-->
