@@ -9,7 +9,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { InterviewComponent } from './interview/interview.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatAutocompleteModule,MatFormFieldModule,MatInputModule } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
+import {RequisitionService} from './services/requisition.service';
+
 import { CandidateService } from './services/candidateService';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule,BrowserXhr } from '@angular/http';
@@ -27,12 +30,14 @@ import { HttpModule,BrowserXhr } from '@angular/http';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule ,
     MatSelectModule,
     HttpClientModule,
     HttpModule
-
   ],
-  providers: [CandidateService],
+  providers: [RequisitionService,CandidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
