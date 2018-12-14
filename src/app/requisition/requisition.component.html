@@ -121,11 +121,16 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="" class="col-form-label text-right">Experience Level*</label>
-            <div class="">
-              <input [(ngModel)]="requisition.ExperienceLevel" class="form-control" type="number" min="0" max="25"
-                required placeholder="" name="experience" formControlName="experienceControl">
-              <div>{{requisitionForm.experience}}</div>
+            <label for="" class="col-form-label text-right">Experience Level (years)*</label>
+            <div class="row">
+              <div class="col-md-6">
+                <input [(ngModel)]="requisition.FromExperienceLevel" class="form-control" type="number" required
+                  placeholder="From" name="experienceFrom" formControlName="expFromControl">
+              </div>
+              <div class="col-md-6">
+                <input [(ngModel)]="requisition.ToExperienceLevel" class="form-control" type="number" required
+                  placeholder="To" name="experienceTo" formControlName="expToControl">
+              </div>
             </div>
           </div>
         </div>
@@ -156,7 +161,7 @@
             <label for="" class="col-form-label text-right">Contract Duration (Month)*</label>
             <div>
               <input [(ngModel)]="requisition.ContractDuration" class="form-control" type="number" required placeholder=""
-                name="contractDuration" formControlName="contractDurationControl" min="1"></div>
+                name="contractDuration" formControlName="contractDurationControl" min="1" disabled></div>
 
           </div>
         </div>
@@ -172,16 +177,22 @@
       </div>
       <div class="row">
         <div class="col-md-4">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div>
+          <button class="btn btn-info"><i class="fa fa-file"></i> Upload PMO Approval</button>
+        </div></div></div>
+        <div class="col-md-4">
           <div class="form-group">
             <label for="" class="col-form-label text-right">Salary Range Type (LPA)*</label>
             <div class="row">
               <div class="col-md-6">
                 <input [(ngModel)]="requisition.SalaryFromRange" class="form-control" type="number" required
-                  placeholder="frOM" name="salRange" formControlName="salFromControl">
+                  placeholder="From" name="salRangeFrom" formControlName="salFromControl">
               </div>
               <div class="col-md-6">
-                <input [(ngModel)]="requisition.SalaryToRange" class="form-control" type="number" required placeholder="TO"
-                  name="salRange" formControlName="salToControl">
+                <input [(ngModel)]="requisition.SalaryToRange" class="form-control" type="number" required placeholder="To"
+                  name="salRangeTo" formControlName="salToControl">
               </div>
             </div>
           </div>
@@ -191,23 +202,26 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Position Colosure</label>
             <div class="">
-              <input type="date" class="form-control"  name="posClosure" formControlName="posClosureControl" id="" placeholder="" [(ngModel)]="requisition.PositionClosure">
+              <input type="date" class="form-control" name="posClosure" formControlName="posClosureControl" id=""
+                placeholder="" [(ngModel)]="requisition.PositionClosure">
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-2">
           <div class="form-group">
             <label for="" class="col-form-label text-right">Job Description*</label>
-            <div>
-              <textarea class="form-control" [(ngModel)]="requisition.JobDescription" name="jobDescript" formControlName="jobDescriptControl"></textarea>
-            </div>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div>
+            <textarea class="form-control jd-text" [(ngModel)]="requisition.JobDescription" name="jobDescript" formControlName="jobDescriptControl"></textarea>
           </div>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row  mrg-top-30">
         <div class="col-md-12">
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
@@ -360,7 +374,8 @@
     <hr>
     <div class="row text-right">
       <div class="col-md-12">
-        <button class="btn btn-info"><i class="fa fa-file"></i> Upload CV</button>
+        <button class="btn btn-info"><i class="fa fa-file"></i> Upload JD</button>
+        <button class="btn btn-info"><i class="fa fa-search"></i> Find Candidate</button>
         <button class="btn btn-success"><i class="fa fa-save"></i> Save</button>
         <button class="btn btn-success"><i class="fa fa-thumbs-up"></i> Submit</button>
         <button class="btn btn-primary"><i class="fa fa-print"></i> Print</button>

@@ -6,7 +6,8 @@ export class Requisition {
     SecondarySkill: String;
     OtherSkill: String;
     Position: String;
-    ExperienceLevel: Number;
+    FromExperienceLevel: Number;
+    ToExperienceLevel: Number;
     OfPositions: Number;
     PositionType: String;
     ContractDuration: Number;

@@ -29,7 +29,8 @@ export class RequisitionComponent implements OnInit {
     secondarySkillControl: FormControl;
     otherSkills: FormControl;
     positionControl: FormControl;
-    experienceControl: FormControl;
+    expFromControl: FormControl;
+    expToControl: FormControl;
     ofPositionControl: FormControl;
     positionTypeControl: FormControl;
     contractDurationControl: FormControl;
@@ -141,7 +142,8 @@ export class RequisitionComponent implements OnInit {
             secondarySkillControl: new FormControl({ value: this.secondarySkill }),
             otherSkills: new FormControl(''),
             positionControl: new FormControl({ value: this.position }, [Validators.required]),
-            experienceControl: new FormControl('', [Validators.required, Validators.min(0), Validators.max(25)]),
+            expFromControl: new FormControl('', [Validators.required, Validators.min(0), Validators.max(25)]),
+            expToControl: new FormControl('', [Validators.required, Validators.min(0), Validators.max(25)]),
             ofPositionControl: new FormControl('', [Validators.required, Validators.min(1), Validators.max(9)]),
             positionTypeControl: new FormControl({ value: this.positionType }, [Validators.required]),
             contractDurationControl: new FormControl('', [Validators.required, Validators.min(1)]),
