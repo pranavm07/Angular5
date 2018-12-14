@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {Requisition} from "../models/requisition"
 
 @Component({
   selector: 'app-requisition',
@@ -16,6 +17,8 @@ import {map, startWith} from 'rxjs/operators';
   styleUrls: ['./requisition.component.css']
 })
 export class RequisitionComponent implements OnInit {
+    reqDateModel= new Date().toISOString().split('T')[0];
+    requisition: Requisition = new Requisition();
     searches: string[] = [];
     public requisitionFormShow: boolean = false;
     requisitionForm: FormGroup;
@@ -30,21 +33,21 @@ export class RequisitionComponent implements OnInit {
     ofPositionControl: FormControl;
     positionTypeControl: FormControl;
     contractDurationControl: FormControl;
-    salRangeControl: FormControl;
-
+    salFromControl: FormControl;
+    salToControl: FormControl;
+    interviewPanelControl:FormControl;
     positionIdControl = new FormControl();
+    posClosureControl:FormControl;
+    jobDescriptControl: FormControl;
 
     options: string[] = ['Req1', 'Req2', 'Req3','abc123','def345ss'];
 
     filteredOptions: Observable<string[]>;
     public businessUnitList = [{
-        businessUnit:'Healthcare'
+        businessUnit:'NHS'
     },
         {
-            businessUnit: 'CRM'
-        },
-        {
-            businessUnit: 'Others'
+            businessUnit: 'NES'
         }]
     public businessUnits: Array<any>;
     public primarySkill: Array<any>;
@@ -142,6 +145,11 @@ export class RequisitionComponent implements OnInit {
             ofPositionControl: new FormControl('', [Validators.required, Validators.min(1), Validators.max(9)]),
             positionTypeControl: new FormControl({ value: this.positionType }, [Validators.required]),
             contractDurationControl: new FormControl('', [Validators.required, Validators.min(1)]),
+            salFromControl: new FormControl('', [Validators.required, Validators.min(1)]),
+            salToControl: new FormControl('', [Validators.required, Validators.min(1)]),
+            interviewPanelControl: new FormControl('', [Validators.required]),
+            posClosureControl : new FormControl(''),
+            jobDescriptControl: new FormControl('',[Validators.required])
         });
     }
     newRequisitionClick() {

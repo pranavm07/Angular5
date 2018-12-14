@@ -11,6 +11,7 @@ import { InterviewComponent } from './interview/interview.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatAutocompleteModule,MatFormFieldModule,MatInputModule } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
+import {RequisitionService} from './services/requisition.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatInputModule ,
     MatSelectModule
   ],
-  providers: [],
+  providers: [RequisitionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
