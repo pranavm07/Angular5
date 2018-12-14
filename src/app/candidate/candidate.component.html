@@ -142,11 +142,19 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="" class="col-form-label text-right">Position Type</label>
-            <div class="styled-select2 col-md-3">
+            <!-- <div class="styled-select2 col-md-3">
               <select>
                 <option>Permanent</option>
               </select>
-            </div>
+             
+            </div> -->
+            <mat-form-field>
+              <mat-select placeholder="Position Type">
+                <mat-option *ngFor="let position of positions" [value]="position.value">
+                  {{position.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
         <div class="col-md-4">
