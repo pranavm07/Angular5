@@ -13,6 +13,9 @@ import {MatAutocompleteModule,MatFormFieldModule,MatInputModule } from '@angular
 import {MatSelectModule} from '@angular/material/select';
 import {RequisitionService} from './services/requisition.service';
 
+import { CandidateService } from './services/candidateService';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule,BrowserXhr } from '@angular/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,9 +33,11 @@ import {RequisitionService} from './services/requisition.service';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule ,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule,
+    HttpModule
   ],
-  providers: [RequisitionService],
+  providers: [RequisitionService,CandidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
