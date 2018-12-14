@@ -8,7 +8,8 @@ import { CandidateComponent } from './candidate/candidate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { InterviewComponent } from './interview/interview.component';
-
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { InterviewComponent } from './interview/interview.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
