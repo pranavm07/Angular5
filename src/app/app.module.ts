@@ -16,17 +16,22 @@ import {RequisitionService} from './services/requisition.service';
 import { CandidateService } from './services/candidateService';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule,BrowserXhr } from '@angular/http';
+<<<<<<< HEAD
 
 import {AppConfig } from './config/app.config';
 import { Constants } from './config/constants';
 
+=======
+import { LoginComponent } from './login/login.component';
+>>>>>>> RecruitmentPortalUI_DEV
 @NgModule({
   declarations: [
     AppComponent,
     CandidateComponent,
     DashboardComponent,
     RequisitionComponent,
-    InterviewComponent
+    InterviewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
