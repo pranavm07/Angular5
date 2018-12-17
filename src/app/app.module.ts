@@ -16,13 +16,15 @@ import {RequisitionService} from './services/requisition.service';
 import { CandidateService } from './services/candidateService';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule,BrowserXhr } from '@angular/http';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
     CandidateComponent,
     DashboardComponent,
     RequisitionComponent,
-    InterviewComponent
+    InterviewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
