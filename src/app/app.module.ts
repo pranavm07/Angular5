@@ -17,6 +17,7 @@ import { CandidateService } from './services/candidateService';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule,BrowserXhr } from '@angular/http';
 import { LoginComponent } from './login/login.component';
+import {LoginService} from './services/login.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,7 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     HttpModule
   ],
-  providers: [RequisitionService,CandidateService],
+  providers: [RequisitionService,CandidateService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

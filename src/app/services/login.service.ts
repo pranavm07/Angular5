@@ -6,8 +6,8 @@ import {login} from '../models/login';
 import 'rxjs'
 @Injectable()
 
-export class LoginserviceService {
-  readonly loginUrl ="http://localhost:579845/auth/login";
+export class LoginService {
+  readonly loginUrl ="http://localhost:57985/auth/login";
   constructor(private http:HttpClient) { }
   login(mdlLogin:login){
 return this.http.post(this.loginUrl,mdlLogin,
