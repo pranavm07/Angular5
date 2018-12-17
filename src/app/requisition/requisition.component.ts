@@ -5,19 +5,21 @@ import {
     FormGroup,
     FormControl,
     Validators,
-    FormBuilder
+    FormBuilder,
+    Form
 } from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {Requisition} from "../models/requisition"
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Requisition } from "../models/requisition"
+import { RequisitionService } from '../services/requisition.service';
 
 @Component({
-  selector: 'app-requisition',
-  templateUrl: './requisition.component.html',
-  styleUrls: ['./requisition.component.css']
+    selector: 'app-requisition',
+    templateUrl: './requisition.component.html',
+    styleUrls: ['./requisition.component.css']
 })
 export class RequisitionComponent implements OnInit {
-    reqDateModel= new Date().toISOString().split('T')[0];
+    reqDateModel = new Date().toISOString().split('T')[0];
     requisition: Requisition = new Requisition();
     searches: string[] = [];
     public requisitionFormShow: boolean = false;
@@ -36,106 +38,91 @@ export class RequisitionComponent implements OnInit {
     contractDurationControl: FormControl;
     salFromControl: FormControl;
     salToControl: FormControl;
-    interviewPanelControl:FormControl;
+    interviewPanelControl: FormControl;
     positionIdControl = new FormControl();
-    posClosureControl:FormControl;
+    posClosureControl: FormControl;
     jobDescriptControl: FormControl;
-
-    options: string[] = ['Req1', 'Req2', 'Req3','abc123','def345ss'];
-
     filteredOptions: Observable<string[]>;
-    public businessUnitList = [{
-        businessUnit:'NHS'
-    },
-        {
-            businessUnit: 'NES'
-        }]
+    public businessUnitList: any;
     public businessUnits: Array<any>;
     public primarySkill: Array<any>;
     public secondarySkill: Array<any>;
-    public skills = [
-        {
-            skill: 'HTML'
-        },
-        {
-            skill: 'CSS'
-        },
-        {
-            skill: 'Angular'
-        },
-        {
-            skill: '.net'
-        },
-        {
-            skill: 'C#'
-        },
-        {
-            skill: 'Java'
-        }];
+    public primarySkills: any;
+    public secondarySkills: any;
     public position: Array<any>;
-    public positionList = [{
-        position: 'Technical Project Manager'
-    },
-    {
-        position: 'BA'
-    },
-    {
-        position: 'Technical Lead'
-    },
-    {
-        position: 'Technical Consultant'
-    },
-    {
-        position: 'Test Lead'
-    },
-    {
-        position: 'Test Consultant'
-    },
-    {
-        position: 'HR Lead'
-    },
-    {
-        position: 'HR Executive'
-    },
-    {
-        position: 'Marketing Executive'
-    },
-    {
-        position: 'Marketing Lead'
-    },
-    {
-        position: 'Others'
-        }];
+    public positionList: any;
     public positionType: Array<any>;
-    public positionTypeList = [{
-        name:'Permanent'
-    },
-        {
-            name: 'Contract'
-        }, {
-            name: 'Others'
-        }]
-    constructor() {
-      
+    public positionTypeList: any;
+    public validateForm: boolean = false;
+    constructor(private requisitionService: RequisitionService) {
+
     }
 
     ngOnInit() {
+        this.requisitionService.getDropdownValues().subscribe(data=>{
+                  let dataJson: any = data;
+                  this.businessUnitList=dataJson.Data.BusinessUnit;
+                  this.primarySkills=dataJson.Data.SkillSets;
+                  this.secondarySkills= dataJson.Data.SkillSets;
+                  this.positionList= dataJson.Data.Positions;
+                  this.positionTypeList=dataJson.Data.PositionTypes;
+        });
+        this.positionIdControl.valueChanges.subscribe(val => {
+            if (val.length > 2) {
+                this.requisitionService.searchPositionId(val.toLowerCase()).subscribe(data => {
+                    let list: any = data;
+                    this.filteredOptions = list.Data;
+                });
+            }
+        });
         this.createForm();
-        this.filteredOptions = this.positionIdControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-    
-  }
-    
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
-  }
+    }
+    positionIDSelect(selectOption){
+        this.requisitionService.getRequisitionDetails(selectOption.RequisitionId).subscribe(data=>{
+            this.requisitionFormShow=true;
+            let details: any= data
+            this.requisition=details.Data;
+            debugger
+            this.requisition.RequisitionDate=new Date(details.Data.RequisitionDate).toISOString().split('T')[0];;
+            this.requisition.PositionClosureDate=new Date(details.Data.PositionClosureDate).toISOString().split('T')[0];;
+            let interviewPanel ="";
+           details.Data.InterviewPanel.forEach(function(elem,index){
+                if(index != details.Data.InterviewPanel.length){
+                    interviewPanel= interviewPanel+' '+elem.InterviewerName+','
+                }
+                else{
+                    interviewPanel= interviewPanel+' '+elem.InterviewerName;
+
+                }
+            });
+            this.requisition.InterviewPanelString=interviewPanel;
+        });
+       
+    }
+    searchInterviewPanel() {
+        if (this.requisition.InterviewPanelString.length > 3) {
+            this.requisitionService.searchInterviewpanelDropdown(this.requisition.InterviewPanelString).subscribe(data => {
+                debugger
+                console.log(data);
+            });
+        }
+    }
+    primaryskillSelect() {
+        if (this.requisition.PrimarySkill == this.requisition.SecondarySkill) {
+            this.requisition.SecondarySkill = null;
+        }
+        this.secondarySkills.forEach(element => {
+            if (element.Value == this.requisition.PrimarySkill) {
+                element.disabled = true
+            }
+            else {
+                element.disabled = false;
+            }
+        });
+    }
     createForm() {
         this.requisitionForm = new FormGroup({
-            hrManagerName: new FormControl({ value: 'hr', disabled: true }, [Validators.required]),
+            hrManagerName: new FormControl({ value: 'Shailesh', disabled: true }, [Validators.required]),
             businessUnitControl: new FormControl({ value: this.businessUnits }, [Validators.required]),
             projectNameControl: new FormControl(''),
             primarySkillControl: new FormControl({ value: this.primarySkill }, [Validators.required]),
@@ -150,11 +137,14 @@ export class RequisitionComponent implements OnInit {
             salFromControl: new FormControl('', [Validators.required, Validators.min(1)]),
             salToControl: new FormControl('', [Validators.required, Validators.min(1)]),
             interviewPanelControl: new FormControl('', [Validators.required]),
-            posClosureControl : new FormControl(''),
-            jobDescriptControl: new FormControl('',[Validators.required])
+            posClosureControl: new FormControl(''),
+            jobDescriptControl: new FormControl('', [Validators.required])
         });
     }
     newRequisitionClick() {
         this.requisitionFormShow = true;
+    }
+    requisitionFormSubmit(form: Form) {
+        this.validateForm = true;
     }
 }
