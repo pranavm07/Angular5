@@ -21,10 +21,10 @@
           <div class="form-control">
             <mat-form-field class="example-full-width">
               <input type="text" placeholder="type here to search" aria-label="Number" matInput [formControl]="positionIdControl"
-                [matAutocomplete]="auto" class="">
+                [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option}}
+                <mat-option (onSelectionChange)="positionIDSelect(option)" *ngFor="let option of filteredOptions" [value]="option.PositionId">
+                  {{option.PositionId}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -37,7 +37,7 @@
         <div class="form-group">
           <label for="" class="col-form-label text-right">Requisition Date</label>
           <div class="">
-            <input type="date" class="form-control" id="reqDate" disabled [(ngModel)]="reqDateModel">
+            <input type="date" class="form-control" id="reqDate" disabled [(ngModel)]="requisition.RequisitionDate">
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Hiring Manager Name</label>
             <div class="">
-              <input type="text" class="form-control" id="hrManagerName" [(ngModel)]="requisition.HRMName"
+              <input type="text" class="form-control" id="hrManagerName" [(ngModel)]="requisition.HiringManagerName"
                 formControlName="hrManagerName" [disabled]="true">
             </div>
           </div>
@@ -57,10 +57,12 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Business Unit*</label>
             <div class="styled-select2 col-md-3">
-              <select id="businessUnitList" class="form-control" formControlName="businessUnitControl" [(ngModel)]="requisition.BusinessUnit">
-                <option value="" disabled selected>select a category</option>
-                <option *ngFor="let item of businessUnitList" [value]="item.businessUnit">{{item.businessUnit}}</option>
+              <select id="businessUnitList" class="form-control" formControlName="businessUnitControl" [(ngModel)]="requisition.BusinessUnitDetails.Value">
+                <option *ngFor="let item of businessUnitList" [value]="item.Value">{{item.Value}}</option>
               </select>
+            </div>
+            <div class="form-control-feedback" *ngIf="validateForm && requisitionForm.controls.businessUnitControl.errors && requisitionForm.controls.businessUnitControl.errors.required">
+              Field is required
             </div>
           </div>
         </div>
@@ -78,10 +80,9 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Primary Skill*</label>
             <div class="styled-select2 col-md-3">
-              <select [(ngModel)]="primarySkill" id="primarySkill" class="form-control" formControlName="primarySkillControl"
-                [(ngModel)]="requisition.PrimarySkill">
-                <option value="" disabled selected>select a category</option>
-                <option *ngFor="let item of skills" [value]="item.skill">{{item.skill}}</option>
+              <select id="primarySkill" class="form-control" formControlName="primarySkillControl" [(ngModel)]="requisition.PrimarySkill"
+                (change)="primaryskillSelect()">
+                <option *ngFor="let item of primarySkills" [value]="item.Value">{{item.Value}}</option>
               </select>
             </div>
           </div>
@@ -90,10 +91,8 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Secondary Skill</label>
             <div class="styled-select2 col-md-3">
-              <select [(ngModel)]="secondarySkill" id="secondarySkill" class="form-control" formControlName="secondarySkillControl"
-                [(ngModel)]="requisition.SecondarySkill">
-                <option value="" disabled selected>select a category</option>
-                <option *ngFor="let item of skills" [value]="item.skill">{{item.skill}}</option>
+              <select id="secondarySkill" class="form-control" formControlName="secondarySkillControl" [(ngModel)]="requisition.SecondarySkill">
+                <option *ngFor="let item of secondarySkills" [value]="item.Value" [disabled]="item.disabled">{{item.Value}}</option>
               </select>
             </div>
           </div>
@@ -112,9 +111,8 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Position*</label>
             <div class="styled-select2 col-md-3">
-              <select [(ngModel)]="requisition.Position" id="position" class="form-control" formControlName="positionControl">
-                <option value="" disabled selected>select a category</option>
-                <option *ngFor="let item of positionList" [value]="item.position">{{item.position}}</option>
+              <select [(ngModel)]="requisition.PositionNameDetails.Value" id="position" class="form-control" formControlName="positionControl">
+                <option *ngFor="let item of positionList" [value]="item.Value">{{item.Value}}</option>
               </select>
             </div>
           </div>
@@ -124,11 +122,11 @@
             <label for="" class="col-form-label text-right">Experience Level (years)*</label>
             <div class="row">
               <div class="col-md-6">
-                <input [(ngModel)]="requisition.FromExperienceLevel" class="form-control" type="number" required
+                <input [(ngModel)]="requisition.ExperienceLevelFrom" class="form-control" type="number" required
                   placeholder="From" name="experienceFrom" formControlName="expFromControl">
               </div>
               <div class="col-md-6">
-                <input [(ngModel)]="requisition.ToExperienceLevel" class="form-control" type="number" required
+                <input [(ngModel)]="requisition.ExperienceLevelTo" class="form-control" type="number" required
                   placeholder="To" name="experienceTo" formControlName="expToControl">
               </div>
             </div>
@@ -138,7 +136,7 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Of Positions*</label>
             <div>
-              <input [(ngModel)]="requisition.OfPositions" class="form-control" type="number" min="1" max="9" required
+              <input [(ngModel)]="requisition.NumberOfPosition" class="form-control" type="number" min="1" max="9" required
                 placeholder="" name="ofPosition" formControlName="ofPositionControl">
             </div>
           </div>
@@ -150,8 +148,7 @@
             <label for="" class="col-form-label text-right">Position Type*</label>
             <div class="styled-select2 col-md-3">
               <select [(ngModel)]="requisition.PositionType" id="position" class="form-control" formControlName="positionTypeControl">
-                <option value="" disabled selected>select a category</option>
-                <option *ngFor="let item of positionTypeList" [value]="item.name">{{item.name}}</option>
+                <option *ngFor="let item of positionTypeList" [value]="item.Value">{{item.Value}}</option>
               </select>
             </div>
           </div>
@@ -169,29 +166,31 @@
           <div class="form-group">
             <label for="" class="col-form-label text-right">Interview Panel*</label>
             <div class="">
-              <input [(ngModel)]="requisition.InterviewPanel" class="form-control" type="text" required placeholder=""
-                name="interviewPanel" formControlName="interviewPanelControl">
+              <input [(ngModel)]="requisition.InterviewPanelString" class="form-control" type="text" required placeholder=""
+                name="interviewPanel" formControlName="interviewPanelControl" (change)="searchInterviewPanel()">
             </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <div>
-          <button class="btn btn-info"><i class="fa fa-file"></i> Upload PMO Approval</button>
-        </div></div></div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <div>
+              <button class="btn btn-info"><i class="fa fa-file"></i> Upload PMO Approval</button>
+            </div>
+          </div>
+        </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="" class="col-form-label text-right">Salary Range Type (LPA)*</label>
             <div class="row">
               <div class="col-md-6">
-                <input [(ngModel)]="requisition.SalaryFromRange" class="form-control" type="number" required
+                <input [(ngModel)]="requisition.SalaryRangeFrom" class="form-control" type="number" required
                   placeholder="From" name="salRangeFrom" formControlName="salFromControl">
               </div>
               <div class="col-md-6">
-                <input [(ngModel)]="requisition.SalaryToRange" class="form-control" type="number" required placeholder="To"
+                <input [(ngModel)]="requisition.SalaryRangeTo" class="form-control" type="number" required placeholder="To"
                   name="salRangeTo" formControlName="salToControl">
               </div>
             </div>
@@ -203,7 +202,7 @@
             <label for="" class="col-form-label text-right">Position Colosure</label>
             <div class="">
               <input type="date" class="form-control" name="posClosure" formControlName="posClosureControl" id=""
-                placeholder="" [(ngModel)]="requisition.PositionClosure">
+                placeholder="" [(ngModel)]="requisition.PositionClosureDate">
             </div>
           </div>
         </div>
@@ -216,7 +215,8 @@
         </div>
         <div class="col-md-10">
           <div>
-            <textarea class="form-control jd-text" [(ngModel)]="requisition.JobDescription" name="jobDescript" formControlName="jobDescriptControl"></textarea>
+            <textarea class="form-control jd-text" [(ngModel)]="requisition.JobDescription" name="jobDescript"
+              formControlName="jobDescriptControl"></textarea>
           </div>
         </div>
       </div>
@@ -377,7 +377,8 @@
         <button class="btn btn-info"><i class="fa fa-file"></i> Upload JD</button>
         <button class="btn btn-info"><i class="fa fa-search"></i> Find Candidate</button>
         <button class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-        <button class="btn btn-success"><i class="fa fa-thumbs-up"></i> Submit</button>
+        <button class="btn btn-success" (click)="requisitionFormSubmit(requisitionForm)"><i class="fa fa-thumbs-up"></i>
+          Submit</button>
         <button class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
       </div>
     </div>

@@ -16,6 +16,10 @@ import {RequisitionService} from './services/requisition.service';
 import { CandidateService } from './services/candidateService';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule,BrowserXhr } from '@angular/http';
+
+import {AppConfig } from './config/app.config';
+import { Constants } from './config/constants';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +41,7 @@ import { HttpModule,BrowserXhr } from '@angular/http';
     HttpClientModule,
     HttpModule
   ],
-  providers: [RequisitionService,CandidateService],
+  providers: [RequisitionService,CandidateService,AppConfig,Constants],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

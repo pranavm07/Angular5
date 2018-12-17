@@ -1,3 +1,7 @@
 .jd-text{
     min-height: 16vh;
 }
+.form-control-feedback{
+    color: red;
+    display: contents;
+}
